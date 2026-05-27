@@ -139,7 +139,7 @@ FIGURE.2 <- function(dataset,
     ggplot2::geom_errorbar(ggplot2::aes(ymin = emmean - SE * qnorm(1 - alpha / 2),
                                         ymax = emmean + SE * qnorm(1 - alpha / 2)),
                            width = 0.2, position = ggplot2::position_dodge(0.2)) +
-    ggplot2::labs(x = "Time points", y = ylab, color = "Group") +
+    ggplot2::labs(x = xlabs, y = ylab, color = "Group") +
     ggplot2::scale_color_grey(start = 0.2, end = 0.8) +
     ggplot2::scale_x_continuous(breaks = wt.values, labels = wt.labels) +
     ggplot2::theme_minimal() +
@@ -153,6 +153,10 @@ FIGURE.2 <- function(dataset,
       legend.title = ggplot2::element_text(size = 13),
       legend.text = ggplot2::element_text(size = 11),
       strip.text = ggplot2::element_text(size = 13)
-    )  
+    ) +
+    ggplot2::ylim(
+      min(0, min(emm_df$emmean - emm_df$SE * qnorm(1 - alpha / 2))),
+      max(emm_df$emmean + emm_df$SE * qnorm(1 - alpha / 2))
+    )
   return(p)
 }
